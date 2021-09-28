@@ -1,0 +1,9 @@
+.DS_Store
+.ini
+.env
+Icon?
+*.log
+/logs/
+sheets.googleapis.com-python.json
+client_secret.json
+.idea/
