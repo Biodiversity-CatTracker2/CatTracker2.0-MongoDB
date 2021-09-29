@@ -8,6 +8,8 @@ import pandas as pd
 import pygsheets
 from ssh_pymongo import MongoSession
 
+from MongoDB_connect import mongodb_connect
+
 
 def get_form_data(client_secret, form_name):
     gc = pygsheets.authorize(client_secret=client_secret)
@@ -73,35 +75,25 @@ def clean_responses(df):
     return df
 
 
-def mongodb_connect():
-    host = keyring.get_password('mongodb', 'host')
-    username = keyring.get_password('mongodb', 'username')
-    passwd = keyring.get_password('mongodb', username)
-    key = f'{Path.home()}/.ssh/anvil_key'
-    session = MongoSession(
-        host,
-        port=22,
-        user='ubuntu',
-        key=key,
-        uri=f'mongodb://{username}:{passwd}@{host}:27017/?authSource=admin')
-    return session
-
-
-def main():
+def google_forms(session=None):
     sh = get_form_data('client_secret.json',
                        'Cat Tracker 2.0 – Sign-up (Responses)')
     df = sh.sheet1.get_as_df()
     df = clean_responses(df)
     data = json.loads(df.to_json(orient='index'))
-    session = mongodb_connect()
+    spawned_ssession = False
+    if not session:
+        session = mongodb_connect()
+        spawned_ssession = True
     db = session.connection['cattracker2']
     db['signup_form'].drop()
     for k, v in data.items():
         d = {'index': int(k)}
         d.update(v)
         db['signup_form'].insert(d)
-    session.stop()
+    if spawned_ssession:
+        session.stop()
 
 
 if __name__ == '__main__':
-    main()
+    google_forms()
