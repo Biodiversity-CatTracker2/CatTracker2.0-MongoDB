@@ -5,11 +5,11 @@ from MongoDB_connect import mongodb_connect
 
 
 def main():
-	session = mongodb_connect()
-	contact_us_form(session)
-	google_forms(session)
-	parse_emails(session)
+    session = mongodb_connect()
+    contact_us_form(session)
+    google_forms(session)
+    parse_emails(session)
 
 
 if __name__ == '__main__':
-	main()
+    main()

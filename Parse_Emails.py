@@ -47,7 +47,7 @@ def parse_emails(session=None):
             content = re.split(mail_regex, data['text'])
             if len(content) == 1:
                 content = re.split(gmail_regex, data['text'])
-                
+
             body = []
             for line in content[0].split('\n'):
                 if not any([

@@ -24,7 +24,7 @@ def clean_responses(df):
         1: 'coat_color',
         2: 'eye_color'
     },
-        inplace=True)
+                    inplace=True)
     df = pd.concat([df.iloc[:, :3], sep_cols, df.iloc[:, 4:]], axis=1)
 
     new_names = [

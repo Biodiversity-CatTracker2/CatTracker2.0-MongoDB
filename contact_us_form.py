@@ -20,7 +20,8 @@ def contact_us_form(session=None):
     db['contact_us'].drop()
 
     with imap_tools.MailBox('imap.gmail.com').login(addr, mail_p) as mailbox:
-        mails = mailbox.fetch(criteria=imap_tools.A(from_='wordpress@cattracker.org'), bulk=True)
+        mails = mailbox.fetch(
+            criteria=imap_tools.A(from_='wordpress@cattracker.org'), bulk=True)
         for msg in mails:
             include = [
                 'date', 'flags', 'from_', 'reply_to', 'size', 'subject',
@@ -31,7 +32,10 @@ def contact_us_form(session=None):
             data['uid'] = int(data['uid'])
             body = []
             for line in data['text'].split('\n'):
-                if not any([line.startswith(x) for x in ['From:', 'Subject:', 'Message Body:']]):
+                if not any([
+                        line.startswith(x)
+                        for x in ['From:', 'Subject:', 'Message Body:']
+                ]):
                     body.append(line)
             if body[0] == '\r':
                 body = body[1:]
