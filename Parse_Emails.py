@@ -58,7 +58,11 @@ def parse_emails(session=None):
 
             data['text'] = '\n'.join(body)
             data = {k: data[k] for k in include}
-            db['emails'].insert(data)
+            data['_id'] = data['uid']
+            db['inbox_emails'].update_one(
+                    {'_id': data['uid']},
+                    {'$set': data}, upsert=True
+                )
 
             mailbox.box.uid('STORE', data['uid'], 'X-GM-LABELS',
                             'cat-tracker-2.0')
