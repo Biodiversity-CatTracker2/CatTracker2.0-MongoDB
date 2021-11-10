@@ -5,7 +5,7 @@ from MongoDB_connect import mongodb_connect
 
 
 def main(keep_session=False):
-    session = mongodb_connect()
+    session = mongodb_connect(atlas=True)
     print('Connected to database...')
     contact_us_form(session)
     print('Finished running `contact_us_form()`...')

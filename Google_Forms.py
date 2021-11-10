@@ -76,7 +76,7 @@ def clean_responses(df):
 
 
 def google_forms(session=None):
-    sh = get_form_data('client_secret.json',
+    sh = get_form_data(f'{Path(__file__).parent}/client_secret.json',
                        'Cat Tracker 2.0 – Sign-up (Responses)')
     df = sh.sheet1.get_as_df()
     df = clean_responses(df)

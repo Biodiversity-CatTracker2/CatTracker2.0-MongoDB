@@ -15,7 +15,6 @@ from pathlib import Path
 import bson
 import dateparser
 import gridfs
-import pymongo
 
 from MongoDB_connect import mongodb_connect
 
